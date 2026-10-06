@@ -1,0 +1,24 @@
+FOTOS DO SITE DA AUREN
+======================
+
+As fotos das peças vão na pasta:
+
+    imagens/projetos/
+
+Use nomes simples, sem acento e sem espaço:
+
+    OK      guardiao-01.jpg
+    OK      diorama-estacao-02.jpg
+    EVITE   Foto Guardião (1).jpg
+
+Depois de copiar a foto para cá, abra o index.html no navegador,
+clique em "Editar site", e no projeto desejado clique em
+"Escolher arquivo". A foto aparece na prévia na hora.
+
+Formatos aceitos: .jpg  .png  .webp
+
+Tamanho recomendado: lado maior com pelo menos 1600 pixels.
+Fotos muito grandes (acima de 3 MB) deixam o site lento.
+
+A pasta imagens/ precisa ficar sempre junto do index.html.
+Se mandar o site para uma hospedagem, envie os dois.

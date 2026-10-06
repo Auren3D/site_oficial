@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="pt-BR"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>AUREN — 3D Creation Studio</title>
+<meta name="description" content="Estúdio de criação, design e fabricação de peças em impressão 3D. Action figures, colecionáveis, miniaturas, dioramas e projetos personalizados.">
+<meta name="theme-color" content="#080808">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="AUREN — 3D Creation Studio">
+<meta property="og:description" content="Do digital ao físico. Transformamos ideias digitais em peças reais.">
+<meta property="og:locale" content="pt_BR">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&amp;display=swap">
+
+<style>
+/* ==========================================================================
+   AUREN — ESTILO DO SITE
+   As cores da marca estão logo abaixo. Trocar um valor aqui muda o site todo.
+   ========================================================================== */
+:root{
+  --preto:#080808;
+  --grafite:#171717;
+  --grafite-quente:#1c1a18;
+  --linha:#262320;
+  --linha-forte:#38322a;
+  --aco:#8b8b8b;
+  --prata:#d9d9d9;
+  --ouro:#c58a32;
+  --ouro-claro:#e0ad58;
+  --fonte:'Montserrat',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --suave:cubic-bezier(.22,1,.36,1);
+  --alturaTopo:74px;
+  color-scheme:dark;
+}
+*{box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--alturaTopo) + 16px);-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--preto);color:var(--prata);
+  font-family:var(--fonte);font-weight:300;line-height:1.7;font-size:16px;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+body.sem-scroll{overflow:hidden}
+img{max-width:100%;display:block}
+a{color:inherit}
+h1,h2,h3,h4{font-weight:300;line-height:1.12;letter-spacing:-.01em;color:#fff;margin:0;text-wrap:balance}
+p{margin:0;text-wrap:pretty}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:2px solid var(--ouro);outline-offset:3px;border-radius:2px}
+::selection{background:var(--ouro);color:var(--preto)}
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:var(--preto)}
+::-webkit-scrollbar-thumb{background:var(--linha-forte)}
+::-webkit-scrollbar-thumb:hover{background:var(--ouro)}
+
+/* --- estruturas base --- */
+.env{width:100%;max-width:1320px;margin:0 auto;padding-inline:20px}
+@media(min-width:640px){.env{padding-inline:32px}}
+@media(min-width:1024px){.env{padding-inline:48px}}
+.env-estreito{max-width:860px}
+
+.sec{padding-block:80px;position:relative}
+@media(min-width:768px){.sec{padding-block:110px}}
+@media(min-width:1280px){.sec{padding-block:140px}}
+.sec-curta{padding-block:64px}
+@media(min-width:768px){.sec-curta{padding-block:88px}}
+.sec-escura{background:var(--grafite-quente)}
+
+.rotulo{
+  font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  line-height:1.4;margin:0;
+}
+.cab-sec{display:flex;flex-direction:column;gap:12px}
+.cab-num{display:flex;align-items:center;gap:16px}
+.cab-num span{font-size:13px;letter-spacing:.2em;color:var(--ouro);line-height:1}
+.cab-num i{display:block;height:1px;width:40px;background:linear-gradient(90deg,var(--ouro),transparent)}
+.titulo{font-size:clamp(26px,4.6vw,52px);line-height:1.12}
+.dourado{color:var(--ouro-claro)}
+.texto{color:var(--aco);font-size:16px;line-height:1.75;max-width:58ch}
+@media(min-width:768px){.texto{font-size:18px}}
+
+/* --- botões --- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:12px;
+  font-size:11px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;
+  padding:15px 26px;border-radius:2px;text-decoration:none;
+  border:1px solid var(--linha-forte);color:var(--prata);
+  transition:all .2s var(--suave);white-space:nowrap;
+}
+.btn:hover{border-color:var(--ouro);color:#fff;background:rgba(197,138,50,.06)}
+.btn-ouro{background:var(--ouro);border-color:var(--ouro);color:#0c0a06;font-weight:600}
+.btn-ouro:hover{background:var(--ouro-claro);border-color:var(--ouro-claro);color:#0c0a06}
+.btn-txt{border:0;padding:0;color:var(--ouro)}
+.btn-txt:hover{background:none;color:var(--ouro-claro)}
+.btn-peq{padding:10px 18px;font-size:10px}
+
+/* --- cabeçalho --- */
+.topo{
+  position:fixed;inset:0 0 auto 0;z-index:50;
+  border-bottom:1px solid transparent;transition:all .3s var(--suave);
+  padding-top:env(safe-area-inset-top,0px);
+}
+.topo.rolado{background:rgba(8,8,8,.93);backdrop-filter:blur(14px);border-bottom-color:var(--linha)}
+.topo-int{display:flex;align-items:center;gap:20px;height:var(--alturaTopo)}
+.logo{display:flex;flex-direction:column;text-decoration:none;flex-shrink:0}
+.logo img{display:block;width:auto;object-fit:contain}
+.logo-texto{display:flex;flex-direction:column}
+/* No topo: o símbolo "A" ao lado do nome escrito. O conjunto se mantém
+   legível em qualquer tamanho, coisa que a logo inteira não faria a 30px. */
+.logo-topo{flex-direction:row;align-items:center;gap:13px}
+.logo-topo .simbolo{height:36px;transition:height .3s var(--suave)}
+.topo.rolado .logo-topo .simbolo{height:29px}
+/* No rodapé: a logo completa, com espaço para respirar. */
+.logo-rodape img{height:112px;max-width:250px}
+.logo-rodape:has(img) .logo-texto{display:none}
+@media(max-width:560px){
+  .logo-topo .simbolo{height:30px}
+  .logo-rodape img{height:92px}
+}
+.logo b{font-size:17px;font-weight:500;letter-spacing:.34em;color:#fff;line-height:1;padding-right:.34em}
+.logo small{
+  font-size:8px;letter-spacing:.4em;text-transform:uppercase;color:var(--ouro);
+  margin-top:7px;line-height:1;padding-right:.4em;transition:opacity .3s
+}
+.topo.rolado .logo small{opacity:0}
+.menu{margin-left:auto;display:none}
+@media(min-width:1024px){.menu{display:block}}
+.menu ul{display:flex;gap:2px;list-style:none;margin:0;padding:0}
+.menu a{
+  display:block;padding:8px 14px;text-decoration:none;color:var(--aco);
+  font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+  transition:color .2s;position:relative;
+}
+.menu a:hover,.menu a.ativo{color:#fff}
+.menu a.ativo::after{content:'';position:absolute;left:14px;right:14px;bottom:0;height:1px;background:var(--ouro)}
+.topo-acoes{margin-left:auto;display:flex;align-items:center;gap:10px}
+@media(min-width:1024px){.topo-acoes{margin-left:0}}
+.topo-zap{display:none}
+@media(min-width:560px){.topo-zap{display:inline-flex}}
+.hamburguer{width:44px;height:44px;display:flex;align-items:center;justify-content:center;margin-right:-8px}
+@media(min-width:1024px){.hamburguer{display:none}}
+.hamburguer i{position:relative;display:block;width:24px;height:13px}
+.hamburguer i::before,.hamburguer i::after{
+  content:'';position:absolute;left:0;height:1px;background:var(--prata);transition:all .3s var(--suave)
+}
+.hamburguer i::before{top:0;width:100%}
+.hamburguer i::after{top:12px;width:66%}
+.hamburguer[aria-expanded="true"] i::before{top:6px;transform:rotate(45deg)}
+.hamburguer[aria-expanded="true"] i::after{top:6px;width:100%;transform:rotate(-45deg)}
+
+/* --- menu mobile --- */
+.menu-mob{
+  position:fixed;inset:0;z-index:45;background:var(--preto);display:flex;flex-direction:column;
+  padding-top:calc(var(--alturaTopo) + env(safe-area-inset-top,0px));
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  opacity:0;pointer-events:none;transition:opacity .3s var(--suave);
+}
+.menu-mob[data-aberto="1"]{opacity:1;pointer-events:auto}
+.menu-mob nav{flex:1;overflow-y:auto;padding:24px 20px}
+.menu-mob ul{list-style:none;margin:0;padding:0}
+.menu-mob li{border-bottom:1px solid var(--linha)}
+.menu-mob a{
+  display:flex;align-items:baseline;gap:16px;padding:20px 0;text-decoration:none;
+  font-size:26px;font-weight:300;color:#fff;transition:color .2s
+}
+.menu-mob a:hover{color:var(--ouro)}
+.menu-mob a em{font-style:normal;font-size:10px;letter-spacing:.2em;color:var(--ouro)}
+.menu-mob .pe{border-top:1px solid var(--linha);padding:24px 20px}
+.menu-mob .pe .btn{width:100%}
+
+/* --- fotos --- */
+.foto{position:relative;overflow:hidden;background:var(--grafite);width:100%}
+.foto.retrato{aspect-ratio:3/4}
+.foto.quadrada{aspect-ratio:1/1}
+.foto.paisagem{aspect-ratio:4/3}
+.foto.larga{aspect-ratio:16/9}
+.foto img{width:100%;height:100%;object-fit:cover}
+/* Arte pronta (já traz nome e logo): aparece inteira, sem cortar nada. */
+.foto.inteira img{object-fit:contain;background:var(--preto)}
+.foto.cartao-img{aspect-ratio:4/5;background:var(--preto)}
+/* Na janela do projeto a arte aparece na altura natural dela. */
+.foto.natural{aspect-ratio:auto;background:var(--preto);display:flex;justify-content:center;max-width:760px;margin:0 auto;border:1px solid var(--linha)}
+.foto.natural img{position:static;width:auto;max-width:100%;height:auto;max-height:78vh;object-fit:contain}
+.foto.vazia{
+  background:radial-gradient(60% 50% at 50% 38%,#221f1a 0%,#131211 55%,#0b0b0a 100%);
+  display:flex;align-items:center;justify-content:center;
+}
+.foto.vazia img{display:none}
+.foto.vazia::after{
+  content:attr(data-aviso);
+  font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:rgba(197,138,50,.65);
+  text-align:center;padding:24px;max-width:24ch;line-height:2;
+}
+.foto.vazia::before{
+  content:'';position:absolute;inset:16px;border:1px solid var(--linha);
+  -webkit-mask-image:linear-gradient(to right,#000 0 18%,transparent 18% 82%,#000 82% 100%),linear-gradient(to bottom,#000 0 18%,transparent 18% 82%,#000 82% 100%);
+  -webkit-mask-composite:source-in;mask-composite:intersect;
+  mask-image:linear-gradient(to right,#000 0 18%,transparent 18% 82%,#000 82% 100%),linear-gradient(to bottom,#000 0 18%,transparent 18% 82%,#000 82% 100%);
+}
+
+/* --- hero --- */
+.hero{position:relative;overflow:hidden;padding-block:130px 80px}
+@media(min-width:1024px){.hero{padding-block:180px 120px}}
+.hero::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(48% 60% at 78% 42%,rgba(197,138,50,.16),transparent 68%),
+             radial-gradient(70% 70% at 18% 8%,rgba(217,217,217,.04),transparent 60%);
+}
+.hero-int{position:relative;display:grid;gap:56px;align-items:center}
+@media(min-width:1024px){.hero-int{grid-template-columns:1.05fr .95fr;gap:64px}}
+.hero .rotulo{color:var(--ouro)}
+.hero h1{font-size:clamp(40px,9vw,88px);line-height:1.02;margin-top:32px;letter-spacing:-.015em}
+.hero .texto{margin-top:32px;font-size:18px;max-width:32ch}
+@media(min-width:768px){.hero .texto{font-size:21px}}
+.hero-btns{margin-top:48px;display:flex;flex-direction:column;gap:14px}
+@media(min-width:420px){.hero-btns{flex-direction:row;align-items:center}}
+.hero-foto{box-shadow:0 40px 90px -40px rgba(0,0,0,.95)}
+
+/* ===== CAPA COM VÍDEO ====================================================
+   O vídeo da logo entra como fundo da primeira dobra. Sem som, em laço
+   emendado (o fim foi fundido no começo, então não há salto ao reiniciar).
+
+   No celular o vídeo NÃO cobre a tela: vira uma faixa 16:9 no topo, com o
+   texto abaixo. Se cobrisse, o corte comeria as laterais da palavra AUREN.
+
+   Embaixo do vídeo há um degradê que dissolve a imagem no preto da página,
+   e uma linha dourada que separa a capa da seção seguinte.
+   ======================================================================== */
+.hero{display:flex;flex-direction:column;padding-block:0;overflow:hidden}
+.capa-palco{position:relative;margin-top:var(--alturaTopo)}
+.capa-video{
+  display:block;width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--preto);
+}
+.capa-veu{display:none}
+/* degradê: o vídeo não termina numa borda reta, ele se apaga no fundo */
+.capa-fim{
+  position:absolute;inset:auto 0 -1px 0;height:46%;pointer-events:none;z-index:1;
+  background:linear-gradient(180deg,
+      rgba(8,8,8,0) 0%,
+      rgba(8,8,8,0.35) 38%,
+      rgba(8,8,8,0.78) 70%,
+      var(--preto) 100%);
+}
+.hero-int{padding-top:44px}
+
+/* A capa tem dois formatos. Empilhada (celular em pé): o vídeo é uma faixa
+   16:9 no topo e o texto vem abaixo — se o vídeo cobrisse a tela, o corte
+   comeria as laterais da palavra AUREN.
+   Sobreposta (computador, e também celular DEITADO, que é uma tela larga e
+   baixa igual à de um notebook): o vídeo preenche o fundo e o texto fica
+   por cima, com o véu escurecendo o lado esquerdo para o texto se ler. */
+@media(min-width:1024px), (min-width:640px) and (max-height:560px){
+  .hero{display:block;padding-block:150px 0;min-height:86vh}
+  .capa-palco{position:absolute;inset:0;z-index:0;margin:0}
+  .capa-video{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto}
+  .capa-veu{
+    display:block;position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:
+      linear-gradient(90deg,
+        rgba(8,8,8,0.97) 0%, rgba(8,8,8,0.93) 26%,
+        rgba(8,8,8,0.62) 50%, rgba(8,8,8,0.38) 72%, rgba(8,8,8,0.52) 100%),
+      linear-gradient(180deg,
+        rgba(8,8,8,0.88) 0%, rgba(8,8,8,0.10) 26%,
+        rgba(8,8,8,0.10) 62%, rgba(8,8,8,0.55) 86%, var(--preto) 100%);
+  }
+  .capa-fim{height:34%;z-index:2}
+  .hero-int{position:relative;z-index:3;grid-template-columns:1fr;padding-top:0}
+  .capa-texto{max-width:640px}
+}
+
+/* ===== SEPARAÇÃO ENTRE A CAPA E A SEÇÃO SEGUINTE =======================
+   Uma hairline dourada que acende no centro e se apaga nas pontas, com um
+   brilho suave atrás e um traço que desce, convidando a rolar.
+   ======================================================================== */
+.capa-divisor{
+  position:relative;z-index:3;margin-top:72px;height:1px;
+  background:linear-gradient(90deg,
+      transparent 0%,
+      rgba(197,138,50,0.05) 14%,
+      rgba(197,138,50,0.45) 50%,
+      rgba(197,138,50,0.05) 86%,
+      transparent 100%);
+}
+.capa-divisor::before{
+  content:'';position:absolute;left:50%;top:50%;
+  width:280px;height:64px;transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(closest-side, rgba(197,138,50,0.13), transparent 74%);
+}
+.capa-desce{
+  position:absolute;left:50%;top:-52px;width:1px;height:46px;
+  transform:translateX(-50%);pointer-events:none;
+  background:linear-gradient(180deg, rgba(197,138,50,0) 0%, rgba(224,173,88,0.75) 100%);
+  animation:descerCapa 3.2s var(--suave) infinite;
+}
+@keyframes descerCapa{
+  0%{opacity:0;transform:translateX(-50%) translateY(-12px)}
+  30%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0;transform:translateX(-50%) translateY(12px)}
+}
+@media(max-width:1023px){.capa-divisor{margin-top:56px}}
+/* Quando a capa é sobreposta, o divisor marca o fim dela, preso na base. */
+@media(min-width:1024px), (min-width:640px) and (max-height:560px){
+  .capa-divisor{position:absolute;left:0;right:0;bottom:0;margin-top:0}
+}
+
+/* entrada escalonada do texto da capa */
+@keyframes surgirCapa{
+  from{opacity:0;transform:translateY(22px)}
+  to{opacity:1;transform:none}
+}
+.capa-texto > *{animation:surgirCapa 1s var(--suave) backwards}
+.capa-texto > *:nth-child(1){animation-delay:.10s}
+.capa-texto > *:nth-child(2){animation-delay:.26s}
+.capa-texto > *:nth-child(3){animation-delay:.44s}
+.capa-texto > *:nth-child(4){animation-delay:.60s}
+
+@media(prefers-reduced-motion:reduce){
+  .capa-video{animation:none}
+  .capa-desce{animation:none;opacity:.7}
+  .capa-texto > *{animation:none}
+}
+
+/* --- grade de projetos --- */
+.filtros{display:flex;gap:8px;overflow-x:auto;padding-bottom:12px;margin-inline:-20px;padding-inline:20px}
+@media(min-width:640px){.filtros{flex-wrap:wrap;overflow:visible;margin-inline:0;padding-inline:0}}
+.filtro{
+  flex-shrink:0;border:1px solid var(--linha-forte);border-radius:2px;padding:10px 16px;
+  font-size:10px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;color:var(--aco);
+  transition:all .2s var(--suave)
+}
+.filtro:hover{border-color:var(--aco);color:var(--prata)}
+.filtro[aria-pressed="true"]{border-color:var(--ouro);background:rgba(197,138,50,.1);color:var(--ouro-claro)}
+
+.grade{display:grid;gap:16px;list-style:none;margin:0;padding:0}
+@media(min-width:640px){.grade{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.grade{grid-template-columns:repeat(3,1fr);gap:24px}}
+
+.cartao{
+  position:relative;display:flex;flex-direction:column;width:100%;text-align:left;
+  overflow:hidden;background:var(--grafite-quente);border:1px solid var(--linha);
+  transition:border-color .4s var(--suave)
+}
+.cartao:hover{border-color:var(--linha-forte)}
+.cartao-foto{overflow:hidden}
+.cartao-foto .foto{transition:transform .7s var(--suave)}
+.cartao:hover .cartao-foto .foto{transform:scale(1.03)}
+/* O texto fica ABAIXO da arte: as artes já trazem nome e logo,
+   e sobrepor texto por cima brigaria com a composição. */
+.cartao-txt{padding:20px 22px 22px;display:flex;flex-direction:column;gap:9px;flex:1}
+.cartao-cat{font-size:10px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ouro);margin:0}
+.cartao-nome{margin:0;font-size:19px;font-weight:300;color:#fff;line-height:1.25}
+.cartao-res{margin:0;font-size:13.5px;color:var(--aco);line-height:1.6}
+.cartao-pe{margin-top:auto;padding-top:14px;display:flex;align-items:baseline;justify-content:space-between;gap:12px;border-top:1px solid var(--linha)}
+.cartao-preco{font-size:17px;color:var(--prata);font-variant-numeric:tabular-nums}
+.cartao-acao{font-size:10px;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--aco);transition:color .3s;white-space:nowrap}
+.cartao:hover .cartao-acao{color:var(--ouro-claro)}
+.cartao-borda{position:absolute;inset:auto 0 0 0;height:1px;background:var(--ouro);transform:scaleX(0);transform-origin:left;transition:transform .5s var(--suave);z-index:2}
+.cartao:hover .cartao-borda{transform:scaleX(1)}
+
+/* --- lista "o que fazemos" --- */
+.lista-linhas{list-style:none;margin:0;padding:0;border-top:1px solid var(--linha)}
+.lista-linhas li{border-bottom:1px solid var(--linha)}
+.lista-linhas .l{display:flex;align-items:baseline;gap:22px;padding:20px 0}
+.lista-linhas .n{font-size:10px;letter-spacing:.2em;color:var(--ouro);font-variant-numeric:tabular-nums}
+.lista-linhas .t{font-size:19px;font-weight:300;color:var(--prata);transition:color .3s}
+@media(min-width:768px){.lista-linhas .t{font-size:24px}}
+.lista-linhas li:hover .t{color:#fff}
+
+/* --- etapas --- */
+.etapas{
+  list-style:none;margin:0;padding:0;display:grid;gap:1px;
+  background:var(--linha);border:1px solid var(--linha)
+}
+@media(min-width:640px){.etapas{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.etapas{grid-template-columns:repeat(3,1fr)}}
+.etapa{background:var(--preto);padding:30px 28px 34px;transition:background .4s}
+.etapa:hover{background:var(--grafite-quente)}
+.sec-escura .etapa{background:var(--grafite-quente)}
+.sec-escura .etapa:hover{background:var(--preto)}
+.etapa .n{font-size:12px;letter-spacing:.2em;color:var(--ouro);font-variant-numeric:tabular-nums}
+.etapa h3{margin-top:22px;font-size:19px;font-weight:400;letter-spacing:.02em}
+.etapa p{margin-top:12px;font-size:14px;color:var(--aco);line-height:1.7;max-width:40ch}
+
+/* --- chamada final --- */
+.final{text-align:center;position:relative;overflow:hidden}
+.final::before{
+  content:'';position:absolute;left:50%;top:50%;width:680px;height:440px;max-width:140%;
+  transform:translate(-50%,-50%);pointer-events:none;
+  background:radial-gradient(closest-side,rgba(197,138,50,.15),transparent 70%)
+}
+.final h2{font-size:clamp(30px,6vw,62px)}
+.final .texto{margin:28px auto 0;text-align:center}
+.final .btns{margin-top:44px;display:flex;flex-direction:column;align-items:center;gap:16px}
+@media(min-width:560px){.final .btns{flex-direction:row;justify-content:center;gap:24px}}
+
+/* --- rodapé --- */
+.rodape{border-top:1px solid var(--linha);padding-block:64px 40px}
+/* espaço extra embaixo: o botão flutuante fica sobre o rodapé */
+.rodape-fim{padding-bottom:46px}
+.rodape-grade{display:grid;gap:44px}
+@media(min-width:768px){.rodape-grade{grid-template-columns:1.4fr 1fr 1fr}}
+.rodape h2{font-size:11px;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--ouro)}
+.rodape ul{list-style:none;margin:22px 0 0;padding:0;display:flex;flex-direction:column;gap:12px}
+.rodape a{color:var(--aco);text-decoration:none;font-size:14px;transition:color .2s}
+.rodape a:hover{color:#fff}
+.rodape-fim{
+  margin-top:56px;padding-top:28px;border-top:1px solid var(--linha);
+  display:flex;flex-direction:column;gap:12px;font-size:12px;color:var(--aco)
+}
+@media(min-width:640px){.rodape-fim{flex-direction:row;align-items:center;justify-content:space-between}}
+
+/* --- botão flutuante --- */
+.flutuante{
+  position:fixed;right:20px;bottom:20px;z-index:40;display:inline-flex;align-items:center;gap:10px;
+  border:1px solid rgba(197,138,50,.45);background:rgba(23,23,23,.92);backdrop-filter:blur(10px);
+  padding:12px 16px;border-radius:2px;text-decoration:none;
+  box-shadow:0 12px 34px -12px rgba(0,0,0,.75);
+  opacity:0;transform:translateY(14px);pointer-events:none;transition:all .3s var(--suave);
+  padding-bottom:max(12px,env(safe-area-inset-bottom,0px));
+}
+.flutuante[data-ver="1"]{opacity:1;transform:none;pointer-events:auto}
+.flutuante:hover{border-color:var(--ouro)}
+.flutuante svg{width:20px;height:20px;color:var(--ouro);flex-shrink:0}
+.flutuante span{font-size:10px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--ouro-claro);display:none}
+@media(min-width:420px){.flutuante span{display:inline}}
+
+/* --- janela do projeto --- */
+.camada-fundo{
+  position:fixed;inset:0;z-index:60;background:rgba(5,5,4,.96);backdrop-filter:blur(6px);
+  overflow-y:auto;padding:0 0 80px;
+}
+.proj-topo{position:sticky;top:0;z-index:2;background:linear-gradient(to bottom,rgba(5,5,4,.98),transparent);padding:16px 0}
+.proj-fechar{
+  display:inline-flex;align-items:center;gap:10px;font-size:11px;font-weight:500;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--aco);padding:10px 0
+}
+.proj-fechar:hover{color:var(--ouro)}
+.proj-cab{padding-top:8px}
+.proj-cab h2{font-size:clamp(30px,6vw,60px);margin-top:16px}
+.proj-corpo{display:grid;gap:48px;margin-top:56px}
+@media(min-width:1024px){.proj-corpo{grid-template-columns:1.15fr .85fr;gap:72px}}
+.proj-desc p{color:var(--prata);font-size:17px;line-height:1.75;max-width:62ch}
+.proj-desc p+p{margin-top:20px}
+.ficha{margin-top:24px;border-top:1px solid var(--linha)}
+.ficha div{
+  display:grid;gap:4px;padding:14px 0;border-bottom:1px solid var(--linha)
+}
+@media(min-width:560px){.ficha div{grid-template-columns:11rem 1fr;gap:24px}}
+.ficha dt{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--aco)}
+.ficha dd{margin:0;font-size:15px;color:var(--prata);font-variant-numeric:tabular-nums}
+.proj-galeria{display:grid;gap:16px;margin-top:56px}
+@media(min-width:640px){.proj-galeria{grid-template-columns:repeat(2,1fr)}}
+.proj-cta{margin-top:64px;text-align:center}
+
+/* --- animação de entrada --- */
+.rv{opacity:0;transform:translateY(16px);transition:opacity .8s var(--suave),transform .8s var(--suave)}
+.rv[data-ver="1"]{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .rv{opacity:1!important;transform:none!important}
+  *{transition-duration:.01ms!important}
+}
+
+/* ==========================================================================
+   CELULAR E TABLET
+   --------------------------------------------------------------------------
+   O site já nascia fluido (larguras em %, grades que reempilham). O que
+   faltava era o DEDO: num mouse um link de 19px de altura se acerta, num
+   celular não. Daí o mínimo de 44px nos pontos de toque, que é a medida
+   recomendada pela Apple e pelo Google.
+   Nada aqui muda o site no computador — tudo está dentro de
+   @media(max-width:1023px), ou seja, só vale em telas estreitas.
+   ========================================================================== */
+@media(max-width:1023px){
+  /* cabeçalho: a logo é um link para o início */
+  .logo-topo{min-height:44px}
+  /* chips de categoria */
+  .filtro{min-height:44px}
+  /* links escritos como texto ("Ver a coleção →") ganham área em volta */
+  .btn-txt{padding-block:13px}
+  /* rodapé: menu e contatos. O espaço entre eles diminui porque
+     cada link agora tem altura própria — senão o rodapé esticaria. */
+  .rodape ul{gap:2px}
+  .rodape ul a{display:inline-flex;align-items:center;min-height:44px}
+  .rodape-fim a{display:inline-flex;align-items:center;min-height:40px}
+  /* "← Voltar para a coleção" na página da peça */
+  .proj-fechar{min-height:44px}
+}
+
+/* Letras miúdas: os rótulos em caixa alta são pequenos de propósito, mas
+   no celular e no tablet alguns ficavam abaixo do que se lê com conforto. */
+@media(max-width:1023px){
+  .logo small{font-size:9px;letter-spacing:.34em}
+  .btn-peq{font-size:11px}
+  .cartao-cat{font-size:11px}
+  .cartao-acao{font-size:11px}
+  .lista-linhas .n{font-size:11px}
+  .menu-mob a em{font-size:11px}
+  .foto.vazia::after{font-size:11px}
+  .filtro{font-size:11px}
+  .flutuante span{font-size:11px}
+}
+
+/* O brilho dourado da capa, no formato empilhado, tinha o seu ponto mais
+   forte bem na borda de baixo do vídeo: como o vídeo é opaco, o brilho só
+   aparecia a partir dali e a emenda virava uma linha visível. Descendo o
+   centro do brilho para o meio do texto, ele já chega apagado na borda. */
+@media(max-width:1023px){
+  .hero::before{background:radial-gradient(62% 34% at 68% 70%,rgba(197,138,50,.15),transparent 72%)}
+}
+
+/* CELULAR DEITADO. A capa já virou sobreposta (ver "dois formatos" acima);
+   aqui só se ajusta a escala, porque a tela é baixa: menos respiro no topo,
+   título menor, para caber capa inteira sem rolar. */
+@media(max-width:1023px) and (max-height:560px){
+  .hero{padding-block:70px 0;min-height:100vh}
+  .hero h1{font-size:clamp(28px,5vw,42px)}
+  .hero .texto{font-size:15px;margin-top:18px}
+  .hero-btns{margin-top:26px}
+  .capa-texto{max-width:60%}
+}
+@media(min-width:640px) and (max-height:560px){
+  /* deitado a capa é sobreposta, então volta o brilho do formato largo */
+  .hero::before{
+    background:radial-gradient(48% 60% at 78% 42%,rgba(197,138,50,.16),transparent 68%),
+               radial-gradient(70% 70% at 18% 8%,rgba(217,217,217,.04),transparent 60%);
+  }
+}
+/* Celular deitado e estreito (iPhone SE deitado, 568px): sem espaço para
+   sobrepor com elegância — volta a faixa empilhada, só que mais baixa. */
+@media(max-width:639px) and (max-height:560px){
+  .capa-video{aspect-ratio:auto;height:52vh}
+}
+
+@media print{.flutuante{display:none!important}}
+</style>
+
+<!-- ==========================================================================
+     ESTILO DO PAINEL DE EDIÇÃO
+     Este bloco inteiro NÃO existe no index.html público.
+     ========================================================================== -->
+
+</head>
+
+<body class="">
+
+<!-- ==========================================================================
+     ▼ ▼ ▼  TODO O CONTEÚDO DO SITE ESTÁ AQUI DENTRO  ▼ ▼ ▼
+
+     Você pode editar de duas formas:
+
+     1) PELO PAINEL (mais fácil) — abra o site no navegador e clique no botão
+        "Editar site" no canto inferior esquerdo. Os campos aparecem à direita
+        e o site muda na hora. No fim, clique em "Baixar site atualizado" e
+        substitua este arquivo pelo que for baixado.
+
+     2) AQUI NO TEXTO — abra este arquivo no Bloco de Notas e troque o que está
+        entre as aspas " ". Salve e atualize o navegador (tecla F5).
+
+     REGRAS PARA NÃO QUEBRAR NADA:
+       • Só troque o que está DEPOIS dos dois pontos e DENTRO das aspas.
+       • Nunca apague vírgulas, chaves { } ou colchetes [ ].
+       • Para acentos e ç pode escrever normalmente.
+       • Para aspas dentro de um texto, escreva assim: \"exemplo\"
+
+     O WhatsApp fica em "contato". Há dois campos: "whatsapp" (o número,
+     que faz a mensagem pronta funcionar) e "whatsappLink" (o link curto).
+     Formato: 55 + DDD + número, só números. Ex.: 5511999998888
+     ========================================================================== -->
+
+<script type="application/json" id="dados">
+{
+  "marca": {
+    "nome": "AUREN",
+    "descritor": "3D Creation Studio",
+    "logo": "imagens/marca/logo-auren.png",
+    "simbolo": "imagens/marca/simbolo-auren.png",
+    "slogan1": "Do digital",
+    "slogan2": "ao físico.",
+    "frase": "Transformamos ideias digitais em peças reais."
+  },
+  "contato": {
+    "whatsapp": "5500000000000",
+    "whatsappLink": "https://wa.me/message/ID2UJ4Q4LW6UP1",
+    "instagram": "auren.studio",
+    "email": "contato@auren.com.br"
+  },
+  "hero": {
+    "video": "imagens/site/capa.mp4",
+    "videoWebm": "imagens/site/capa.webm",
+    "poster": "imagens/site/capa-poster.jpg",
+    "imagem": "imagens/site/capa.jpg"
+  },
+  "sobre": {
+    "titulo": "Não imprimimos apenas objetos.",
+    "destaque": "Damos forma a ideias.",
+    "paragrafos": [
+      "Cada projeto é tratado com atenção aos detalhes, da modelagem ao acabamento, para entregar resultados que impressionam.",
+      "Um arquivo 3D é uma promessa: existe na tela, gira, parece pronto, e ainda não é nada que você possa segurar. O trabalho da AUREN acontece exatamente nesse intervalo, entre o modelo e o objeto.",
+      "Imprimir é uma das etapas. O que entregamos é a peça terminada."
+    ]
+  },
+  "fazemos": {
+    "titulo": "Da sua ideia ao",
+    "destaque": "resultado.",
+    "itens": [
+      "Colecionáveis & action figures",
+      "Miniaturas & dioramas",
+      "Decoração",
+      "Projetos personalizados",
+      "Protótipos & peças funcionais",
+      "Modelagem 3D",
+      "Impressão em resina & FDM",
+      "Pintura & acabamento"
+    ],
+    "assinatura": "Qualquer projeto. Todo detalhe importa."
+  },
+  "projetos": [
+    {
+      "nome": "Naruto Uzumaki",
+      "categoria": "Anime",
+      "resumo": "Figura em pose de combate, com base temática. Pintada à mão.",
+      "imagem": "imagens/projetos/naruto.jpg",
+      "preco": "R$ 150,00",
+      "precoParcelado": "R$ 180,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": true
+    },
+    {
+      "nome": "Goku Ultra Instinct",
+      "categoria": "Anime",
+      "resumo": "Figura em pé sobre base circular gravada.",
+      "imagem": "imagens/projetos/goku.jpg",
+      "preco": "R$ 90,00",
+      "precoParcelado": "R$ 110,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": true
+    },
+    {
+      "nome": "Baki Hanma",
+      "categoria": "Anime",
+      "resumo": "Figura com definição muscular em destaque.",
+      "imagem": "imagens/projetos/baki-hanma.jpg",
+      "preco": "R$ 135,00",
+      "precoParcelado": "R$ 155,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": true
+    },
+    {
+      "nome": "Gaara do Deserto",
+      "categoria": "Anime",
+      "resumo": "Peça grande com cabaça e areia esculpida na base.",
+      "imagem": "imagens/projetos/gaara.jpg",
+      "preco": "R$ 445,00",
+      "precoParcelado": "R$ 465,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": true
+    },
+    {
+      "nome": "Tanjiro Kamado",
+      "categoria": "Anime",
+      "resumo": "Versão chibi com base decorada.",
+      "imagem": "imagens/projetos/tanjiro.jpg",
+      "preco": "R$ 340,00",
+      "precoParcelado": "R$ 360,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": true
+    },
+    {
+      "nome": "Pikachu",
+      "categoria": "Pokémon",
+      "resumo": "Colecionável clássico sobre base temática.",
+      "imagem": "imagens/projetos/pikachu.jpg",
+      "preco": "R$ 55,00",
+      "precoParcelado": "R$ 75,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": true
+    },
+    {
+      "nome": "Charizard",
+      "categoria": "Pokémon",
+      "resumo": "Versão em textura de crochê, com base de chamas.",
+      "imagem": "imagens/projetos/charizard.jpg",
+      "preco": "R$ 60,00",
+      "precoParcelado": "R$ 80,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Bulbasaur",
+      "categoria": "Pokémon",
+      "resumo": "Colecionável clássico sobre base temática.",
+      "imagem": "imagens/projetos/bulbasaur.jpg",
+      "preco": "R$ 150,00",
+      "precoParcelado": "R$ 180,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Homem-Aranha",
+      "categoria": "Marvel",
+      "resumo": "Pose agachada sobre rocha, com base gravada.",
+      "imagem": "imagens/projetos/homem-aranha.jpg",
+      "preco": "R$ 140,00",
+      "precoParcelado": "R$ 160,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Homem de Ferro",
+      "categoria": "Marvel",
+      "resumo": "Armadura com detalhes de reator e mãos iluminadas.",
+      "imagem": "imagens/projetos/homem-de-ferro.jpg",
+      "preco": "R$ 70,00",
+      "precoParcelado": "R$ 90,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Capitão América",
+      "categoria": "Marvel",
+      "resumo": "Figura com escudo, sobre base circular gravada.",
+      "imagem": "imagens/projetos/capitao-america.jpg",
+      "preco": "R$ 125,00",
+      "precoParcelado": "R$ 145,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Groot",
+      "categoria": "Filmes & Séries",
+      "resumo": "Versão cabeçuda com textura de madeira.",
+      "imagem": "imagens/projetos/groot.jpg",
+      "preco": "R$ 65,00",
+      "precoParcelado": "R$ 85,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Batman",
+      "categoria": "DC",
+      "resumo": "Armadura escura, sobre base de concreto quebrado.",
+      "imagem": "imagens/projetos/batman.jpg",
+      "preco": "R$ 80,00",
+      "precoParcelado": "R$ 100,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Super Man",
+      "categoria": "DC",
+      "resumo": "Figura clássica com capa em movimento.",
+      "imagem": "imagens/projetos/super-man.jpg",
+      "preco": "R$ 115,00",
+      "precoParcelado": "R$ 135,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Batman no Trono",
+      "categoria": "DC",
+      "resumo": "Peça de humor: o herói lendo o jornal de Gotham.",
+      "imagem": "imagens/projetos/batman-no-trono.jpg",
+      "preco": "R$ 186,00",
+      "precoParcelado": "R$ 206,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Harry Potter",
+      "categoria": "Filmes & Séries",
+      "resumo": "Versão cabeçuda com vassoura.",
+      "imagem": "imagens/projetos/harry-potter.jpg",
+      "preco": "R$ 85,00",
+      "precoParcelado": "R$ 105,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Demogorgon",
+      "categoria": "Filmes & Séries",
+      "resumo": "Figura em acabamento metálico escuro.",
+      "imagem": "imagens/projetos/demogorgon.jpg",
+      "preco": "R$ 56,00",
+      "precoParcelado": "R$ 76,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Mapas de Counter-Strike",
+      "categoria": "Jogos",
+      "resumo": "Coleção completa de mapas em miniatura, cada um em seu pedestal.",
+      "imagem": "imagens/projetos/mapas-cs.jpg",
+      "preco": "R$ 190,00",
+      "precoParcelado": "R$ 210,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Operador Tático Ghost",
+      "categoria": "Jogos",
+      "resumo": "Busto com equipamento tático detalhado.",
+      "imagem": "imagens/projetos/ghost.jpg",
+      "preco": "R$ 105,00",
+      "precoParcelado": "R$ 125,00",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    },
+    {
+      "nome": "Porta-controle Vice City",
+      "categoria": "Jogos",
+      "resumo": "Suporte para controle de videogame, em acabamento neon.",
+      "imagem": "imagens/projetos/porta-controle-vice-city.jpg",
+      "preco": "",
+      "precoParcelado": "",
+      "descricao": [],
+      "ficha": [],
+      "galeria": [],
+      "destaque": false
+    }
+  ],
+  "personalizados": {
+    "titulo": "Sua ideia.",
+    "destaque": "Nossa criação.",
+    "texto": "Tem uma ideia, referência ou projeto que gostaria de transformar em uma peça real? Conte para a AUREN.",
+    "imagem": "imagens/site/personalizados.jpg",
+    "etapas": [
+      {
+        "titulo": "Você envia a ideia",
+        "texto": "Uma foto, um desenho, uma referência ou só a descrição do que imaginou. Não precisa vir pronto."
+      },
+      {
+        "titulo": "Analisamos o projeto",
+        "texto": "Avaliamos viabilidade, escala, material e o que faz sentido para o uso que você pretende dar à peça."
+      },
+      {
+        "titulo": "Definimos a melhor solução",
+        "texto": "Alinhamos tamanho, acabamento, prazo e valor antes de qualquer produção começar."
+      },
+      {
+        "titulo": "Produzimos a peça",
+        "texto": "Modelagem, preparação e impressão, acompanhando cada etapa e ajustando o que for preciso."
+      },
+      {
+        "titulo": "Finalizamos",
+        "texto": "Lixamento, pintura e acabamento — a parte que transforma o objeto impresso em peça pronta."
+      },
+      {
+        "titulo": "Você recebe o resultado",
+        "texto": "A peça chega até você, conferida e embalada para o transporte."
+      }
+    ]
+  },
+  "processo": {
+    "titulo": "O trabalho não termina",
+    "destaque": "na impressão.",
+    "etapas": [
+      {
+        "titulo": "Ideia",
+        "texto": "Tudo começa com uma intenção: uma peça que você quer ter, um problema para resolver ou uma referência que ainda não existe em objeto."
+      },
+      {
+        "titulo": "Referência",
+        "texto": "Reunimos imagens, medidas e limites reais. É aqui que o projeto ganha escala, proporção e o contorno do que é possível."
+      },
+      {
+        "titulo": "Modelagem",
+        "texto": "A peça é construída ou preparada em 3D: volume, textura, divisão em partes e orientação de impressão."
+      },
+      {
+        "titulo": "Impressão",
+        "texto": "Material, altura de camada e tecnologia conforme a peça exige — resina onde o detalhe manda, filamento onde a resistência manda."
+      },
+      {
+        "titulo": "Acabamento",
+        "texto": "Remoção de suportes, lixamento, primer, pintura e proteção. É a etapa mais longa e a que separa uma impressão de uma peça."
+      },
+      {
+        "titulo": "Resultado",
+        "texto": "A peça é conferida, fotografada e entregue pronta para o lugar onde vai ficar."
+      }
+    ]
+  },
+  "final": {
+    "titulo": "Tem uma ideia?",
+    "destaque": "Vamos dar forma a ela.",
+    "texto": "O WhatsApp é o canal de atendimento da AUREN. Conte o que você imaginou — a conversa já começa com o contexto."
+  }
+}
+</script>
+
+<div id="site"></div>
+<div id="camada"></div>
+<div id="painel"></div>
+<div class="recado" id="recado" role="status" aria-live="polite" data-ver="0"></div>
+
+<noscript>
+  <div style="padding:120px 24px;text-align:center;max-width:560px;margin:0 auto">
+    <h1 style="font-size:28px">AUREN</h1>
+    <p style="margin-top:20px;color:#8b8b8b">
+      Este site precisa de JavaScript ativado para funcionar.
+      Ative nas configurações do navegador e atualize a página.
+    </p>
+  </div>
+</noscript>
+
+<script>
+/* ==========================================================================
+   MOTOR DO SITE
+   Você não precisa mexer aqui. Todo o conteúdo está no bloco lá em cima.
+   ========================================================================== */
+(function () {
+  'use strict';
+
+  var ORIGINAL = document.getElementById('dados').textContent;
+  var dados = JSON.parse(ORIGINAL);
+  var alterado = false;
+
+  // Fotos escolhidas agora no painel: mostradas na hora, antes de irem para a pasta.
+  var previas = {};
+  var pendentes = [];
+
+  /* --- utilidades ------------------------------------------------------- */
+  function esc(t) {
+    return String(t == null ? '' : t)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+  function num(i) { return String(i + 1).padStart(2, '0'); }
+  function $(sel, raiz) { return (raiz || document).querySelector(sel); }
+  function $$(sel, raiz) { return Array.prototype.slice.call((raiz || document).querySelectorAll(sel)); }
+
+  function zap(mensagem) {
+    var n = String(dados.contato.whatsapp || '').replace(/\D/g, '');
+    var numeroReal = /^\d{12,13}$/.test(n) && n.indexOf('5500000') !== 0;
+
+    // Com o número, o link leva a mensagem pronta (com o nome da peça).
+    if (numeroReal) {
+      return 'https://wa.me/' + n + '?text=' + encodeURIComponent(mensagem);
+    }
+    // Sem número, usa o link curto do WhatsApp Business.
+    // Atenção: esse formato NÃO aceita mensagem pré-escrita.
+    var curto = String(dados.contato.whatsappLink || '').trim();
+    if (curto) return curto;
+
+    return 'https://wa.me/' + n + '?text=' + encodeURIComponent(mensagem);
+  }
+  var MSG = {
+    geral: function () { return 'Olá! Conheci a ' + dados.marca.nome + ' pelo site e gostaria de conversar sobre um projeto.'; },
+    ideia: function () { return 'Olá! Conheci a ' + dados.marca.nome + ' pelo site e tenho uma ideia que queria transformar em peça real.'; },
+    custom: function () { return 'Olá! Gostaria de solicitar um projeto personalizado com a ' + dados.marca.nome + '.'; },
+    projeto: function (nome) { return 'Olá! Vi a peça ' + nome + ' no site da ' + dados.marca.nome + ' e gostaria de saber mais sobre ela.'; }
+  };
+
+  /* Deixa a última palavra dourada. Se só houver uma, doura ela inteira. */
+  function ultimaDourada(texto) {
+    var t = esc(texto);
+    var pos = t.lastIndexOf(' ');
+    if (pos === -1) return '<span class="dourado">' + t + '</span>';
+    return t.slice(0, pos) + ' <span class="dourado">' + t.slice(pos + 1) + '</span>';
+  }
+
+  /* Assinatura da marca, em duas formas.
+
+     No TOPO entra só o símbolo "A", ao lado do nome escrito: a logo inteira
+     encolhida para caber num cabeçalho de 74px ficaria ilegível.
+     No RODAPÉ entra a logo completa, que tem espaço para aparecer.
+
+     Em qualquer um dos dois, se o arquivo faltar, o nome escrito volta
+     sozinho — nunca sobra um espaço quebrado. */
+  function marcaTopo(href) {
+    var m = dados.marca;
+    var sim = m.simbolo
+      ? '<img class="simbolo" src="' + esc(previas[m.simbolo] || m.simbolo) + '" alt="" onerror="this.remove()">'
+      : '';
+    return '<a class="logo logo-topo" href="' + esc(href) + '" aria-label="' + esc(m.nome) + ' — início">' + sim +
+      '<span class="logo-texto"><b>' + esc(m.nome) + '</b><small>' + esc(m.descritor) + '</small></span></a>';
+  }
+
+  function marcaRodape(href) {
+    var m = dados.marca;
+    var img = m.logo
+      ? '<img src="' + esc(previas[m.logo] || m.logo) + '" alt="' + esc(m.nome + ' — ' + m.descritor) + '" onerror="this.remove()">'
+      : '';
+    return '<a class="logo logo-rodape" href="' + esc(href) + '" aria-label="' + esc(m.nome) + ' — início">' + img +
+      '<span class="logo-texto"><b>' + esc(m.nome) + '</b><small>' + esc(m.descritor) + '</small></span></a>';
+  }
+
+  function foto(caminho, alt, forma, classe, inteira) {
+    var f = (forma || 'retrato') + (inteira ? ' inteira' : '');
+    var c = classe ? ' ' + classe : '';
+    var src = previas[caminho] || caminho;
+    if (!caminho) {
+      return '<div class="foto ' + f + ' vazia' + c + '" data-aviso="Adicione uma foto" role="img" aria-label="Foto ainda não adicionada"></div>';
+    }
+    return '<div class="foto ' + f + c + '" data-aviso="Foto não encontrada">' +
+      '<img src="' + esc(src) + '" alt="' + esc(alt) + '" loading="lazy" ' +
+      'onerror="this.parentElement.classList.add(&quot;vazia&quot;)"></div>';
+  }
+
+  var SECOES = [
+    { id: 'inicio', nome: 'Início' },
+    { id: 'projetos', nome: 'Coleção' },
+    { id: 'personalizados', nome: 'Personalizados' },
+    { id: 'processo', nome: 'Processo' },
+    { id: 'sobre', nome: 'Sobre' },
+    { id: 'contato', nome: 'Contato' }
+  ];
+
+  /* --- desenho do site -------------------------------------------------- */
+  function desenhar() {
+    var m = dados.marca;
+
+    var html = '';
+
+    /* cabeçalho */
+    html += '<header class="topo" id="topo"><div class="env topo-int">' +
+      marcaTopo('#inicio') +
+      '<nav class="menu" aria-label="Navegação principal"><ul>' +
+      SECOES.map(function (s) {
+        return '<li><a href="#' + s.id + '" data-sec="' + s.id + '">' + esc(s.nome) + '</a></li>';
+      }).join('') +
+      '</ul></nav>' +
+      '<div class="topo-acoes">' +
+      '<a class="btn btn-peq topo-zap" href="' + esc(zap(MSG.ideia())) + '" target="_blank" rel="noopener">Tenho uma ideia</a>' +
+      '<button class="hamburguer" id="btnMenu" aria-expanded="false" aria-controls="menuMob" aria-label="Abrir menu"><i></i></button>' +
+      '</div></div></header>';
+
+    /* menu mobile */
+    html += '<div class="menu-mob" id="menuMob" data-aberto="0"><nav aria-label="Menu"><ul>' +
+      SECOES.map(function (s, i) {
+        return '<li><a href="#' + s.id + '"><em>' + num(i) + '</em>' + esc(s.nome) + '</a></li>';
+      }).join('') +
+      '</ul></nav><div class="pe">' +
+      '<a class="btn btn-ouro" href="' + esc(zap(MSG.ideia())) + '" target="_blank" rel="noopener">Tenho uma ideia</a>' +
+      '</div></div>';
+
+    /* hero */
+    html += '<section class="hero" id="inicio">' +
+      (dados.hero.video
+        ? '<div class="capa-palco">' +
+          '<video class="capa-video" autoplay muted loop playsinline preload="metadata" ' +
+          'poster="' + esc(dados.hero.poster || '') + '" aria-hidden="true" tabindex="-1">' +
+          (dados.hero.videoWebm ? '<source src="' + esc(dados.hero.videoWebm) + '" type="video/webm">' : '') +
+          '<source src="' + esc(previas[dados.hero.video] || dados.hero.video) + '" type="video/mp4"></video>' +
+          '<div class="capa-veu"></div><div class="capa-fim"></div>' +
+          '</div>'
+        : '') +
+      '<div class="env hero-int">' +
+      '<div class="capa-texto">' +
+      (dados.hero.video ? '' :
+        '<p class="rotulo" style="color:var(--ouro)">' + esc(m.nome) + ' &nbsp;/&nbsp; ' + esc(m.descritor) + '</p>') +
+      '<h1>' + esc(m.slogan1) + '<br>' + ultimaDourada(m.slogan2) + '</h1>' +
+      '<p class="texto">' + esc(m.frase) + '</p>' +
+      '<div class="hero-btns">' +
+      '<a class="btn btn-ouro" href="#projetos">Explorar projetos →</a>' +
+      '<a class="btn" href="' + esc(zap(MSG.ideia())) + '" target="_blank" rel="noopener">Tenho uma ideia</a>' +
+      '</div></div></div>' +
+      '<div class="capa-divisor"><span class="capa-desce"></span></div>' +
+      '</section>';
+
+    /* 01 projetos */
+    var cats = [];
+    dados.projetos.forEach(function (p) {
+      if (p.categoria && cats.indexOf(p.categoria) === -1) cats.push(p.categoria);
+    });
+
+    html += '<section class="sec sec-curta" id="projetos"><div class="env">' +
+      '<div class="rv">' + cabecalho('01', 'Coleção') +
+      '<h2 class="titulo" style="margin-top:24px">Cada peça é um <span class="dourado">projeto inteiro.</span></h2></div>' +
+      '<div class="filtros rv" style="margin-top:40px" role="group" aria-label="Filtrar por categoria">' +
+      '<button class="filtro" data-cat="todos" aria-pressed="true">Todos</button>' +
+      cats.map(function (c) {
+        return '<button class="filtro" data-cat="' + esc(c) + '" aria-pressed="false">' + esc(c) + '</button>';
+      }).join('') +
+      '</div>' +
+      '<ul class="grade" id="grade" style="margin-top:36px">' + cartoes('todos') + '</ul>' +
+      '</div></section>';
+
+    /* 02 o que fazemos */
+    html += '<section class="sec sec-escura"><div class="env" style="display:grid;gap:48px">' +
+      '<div class="rv">' + cabecalho('02', 'O que fazemos') +
+      '<h2 class="titulo" style="margin-top:24px">' + esc(dados.fazemos.titulo) + ' <span class="dourado">' + esc(dados.fazemos.destaque) + '</span></h2></div>' +
+      '<ul class="lista-linhas rv">' +
+      dados.fazemos.itens.map(function (t, i) {
+        return '<li><div class="l"><span class="n">' + num(i) + '</span><span class="t">' + esc(t) + '</span></div></li>';
+      }).join('') +
+      '</ul>' +
+      (dados.fazemos.assinatura ? '<p class="texto rv">' + esc(dados.fazemos.assinatura) + '</p>' : '') +
+      '</div></section>';
+
+    /* 03 personalizados */
+    var pz = dados.personalizados;
+    html += '<section class="sec" id="personalizados"><div class="env">' +
+      '<div style="display:grid;gap:48px;align-items:center" class="dois-lados">' +
+      '<div class="rv">' + cabecalho('03', 'Projetos personalizados') +
+      '<h2 class="titulo" style="margin-top:24px">' + esc(pz.titulo) + '<br><span class="dourado">' + esc(pz.destaque) + '</span></h2>' +
+      '<p class="texto" style="margin-top:28px">' + esc(pz.texto) + '</p>' +
+      '<div class="hero-btns" style="margin-top:40px">' +
+      '<a class="btn btn-ouro" href="' + esc(zap(MSG.custom())) + '" target="_blank" rel="noopener">Solicitar projeto</a>' +
+      '</div></div>' +
+      '<div class="rv">' + foto(pz.imagem, 'Projeto personalizado', 'paisagem') + '</div>' +
+      '</div>' +
+      '<ul class="etapas rv" style="margin-top:64px">' +
+      pz.etapas.map(function (e, i) {
+        return '<li class="etapa"><span class="n">' + num(i) + '</span><h3>' + esc(e.titulo) + '</h3><p>' + esc(e.texto) + '</p></li>';
+      }).join('') +
+      '</ul></div></section>';
+
+    /* 04 processo */
+    html += '<section class="sec sec-escura" id="processo"><div class="env">' +
+      '<div class="rv">' + cabecalho('04', 'Nosso processo') +
+      '<h2 class="titulo" style="margin-top:24px">' + esc(dados.processo.titulo) + ' <span class="dourado">' + esc(dados.processo.destaque) + '</span></h2></div>' +
+      '<ul class="etapas rv" style="margin-top:56px">' +
+      dados.processo.etapas.map(function (e, i) {
+        return '<li class="etapa"><span class="n">' + num(i) + '</span><h3>' + esc(e.titulo) + '</h3><p>' + esc(e.texto) + '</p></li>';
+      }).join('') +
+      '</ul></div></section>';
+
+    /* 05 sobre — agora depois do processo, para o menu bater com a página */
+    html += '<section class="sec" id="sobre"><div class="env" style="display:grid;gap:48px">' +
+      '<div class="rv">' + cabecalho('05', 'A marca') + '</div>' +
+      '<div class="rv"><h2 class="titulo">' + esc(dados.sobre.titulo) + '<br><span class="dourado">' + esc(dados.sobre.destaque) + '</span></h2>' +
+      dados.sobre.paragrafos.map(function (p) {
+        return '<p class="texto" style="margin-top:28px">' + esc(p) + '</p>';
+      }).join('') +
+      '</div></div></section>';
+
+    /* 06 chamada final */
+    html += '<section class="sec final" id="contato"><div class="env env-estreito rv">' +
+      '<h2>' + esc(dados.final.titulo) + '<br><span class="dourado">' + esc(dados.final.destaque) + '</span></h2>' +
+      '<p class="texto">' + esc(dados.final.texto) + '</p>' +
+      '<div class="btns">' +
+      '<a class="btn btn-ouro" href="' + esc(zap(MSG.geral())) + '" target="_blank" rel="noopener">Falar com a ' + esc(m.nome) + '</a>' +
+      '<a class="btn btn-txt" href="#projetos">Ver a coleção →</a>' +
+      '</div></div></section>';
+
+    /* rodapé */
+    var insta = String(dados.contato.instagram || '').replace(/^@/, '');
+    html += '<footer class="rodape"><div class="env">' +
+      '<div class="rodape-grade">' +
+      '<div>' + marcaRodape('#inicio') +
+      '<p style="margin-top:26px;font-size:19px;color:var(--prata)">' + esc(m.slogan1) + ' ' + esc(m.slogan2) + '</p>' +
+      '<p style="margin-top:10px;font-size:14px;color:var(--aco);max-width:30ch">' + esc(m.frase) + '</p></div>' +
+      '<div><h2>Navegação</h2><ul>' +
+      SECOES.map(function (s) { return '<li><a href="#' + s.id + '">' + esc(s.nome) + '</a></li>'; }).join('') +
+      '</ul></div>' +
+      '<div><h2>Contato</h2><ul>' +
+      '<li><a href="' + esc(zap(MSG.geral())) + '" target="_blank" rel="noopener">WhatsApp</a></li>' +
+      (insta ? '<li><a href="https://instagram.com/' + esc(insta) + '" target="_blank" rel="noopener">Instagram</a></li>' : '') +
+      (dados.contato.email ? '<li><a href="mailto:' + esc(dados.contato.email) + '">E-mail</a></li>' : '') +
+      '</ul></div></div>' +
+      '<div class="rodape-fim"><span>© ' + new Date().getFullYear() + ' ' + esc(m.nome) + '. Todos os direitos reservados.</span>' +
+      '<span style="font-size:11px;letter-spacing:.22em;text-transform:uppercase">' + esc(m.descritor) + '</span></div>' +
+      '</div></footer>';
+
+    /* botão flutuante */
+    html += '<a class="flutuante" id="flutuante" data-ver="0" href="' + esc(zap(MSG.geral())) + '" target="_blank" rel="noopener" aria-label="Falar pelo WhatsApp">' +
+      '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">' +
+      '<path d="M12 2.4A9.6 9.6 0 0 0 3.7 16.8L2.6 21.4l4.7-1.2A9.6 9.6 0 1 0 12 2.4Z" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/>' +
+      '<path d="M8.9 7.7c.2-.4.4-.4.6-.4h.5c.2 0 .4 0 .6.5l.8 1.9c.1.2 0 .4-.1.5l-.5.6c-.2.2-.3.4-.1.7a7 7 0 0 0 3.2 2.8c.3.1.5.1.7-.1l.7-.8c.2-.2.4-.2.6-.1l1.8.9c.2.1.4.2.4.4a2 2 0 0 1-1.4 1.9c-.6.2-1.4.3-4-1.1a10 10 0 0 1-4-4.2c-.6-1.3-.6-2.3-.5-2.8.1-.4.3-.9.7-1.2Z" fill="currentColor"/>' +
+      '</svg><span>WhatsApp</span></a>';
+
+    /* O botão "Editar site" NÃO é criado aqui: quem o cria é o script do
+       painel, que só existe no editar.html. Por isso o index.html público
+       nunca mostra esse botão. */
+
+    $('#site').innerHTML = html;
+    aplicarEstilosExtras();
+    ligarSite();
+    animar();
+  }
+
+  function cabecalho(n, texto) {
+    return '<div class="cab-sec"><div class="cab-num"><span>' + esc(n) + '</span><i></i></div>' +
+      '<p class="rotulo" style="color:var(--aco)">' + esc(texto) + '</p></div>';
+  }
+
+  function cartoes(filtro) {
+    var lista = dados.projetos.filter(function (p) {
+      return filtro === 'todos' || p.categoria === filtro;
+    });
+    if (!lista.length) {
+      return '<li style="grid-column:1/-1"><p class="texto" style="padding:48px 0;text-align:center">Nenhum projeto nesta categoria ainda.</p></li>';
+    }
+    return lista.map(function (p) {
+      var i = dados.projetos.indexOf(p);
+      return '<li class="rv"><button class="cartao" data-proj="' + i + '">' +
+        '<div class="cartao-foto">' + foto(p.imagem, p.nome, 'cartao-img', '', true) + '</div>' +
+        '<div class="cartao-txt">' +
+        '<p class="cartao-cat">' + esc(p.categoria) + '</p>' +
+        '<p class="cartao-nome">' + esc(p.nome) + '</p>' +
+        (p.resumo ? '<p class="cartao-res">' + esc(p.resumo) + '</p>' : '') +
+        '<span class="cartao-pe">' +
+        (p.preco ? '<span class="cartao-preco">' + esc(p.preco) + '</span>' : '<span></span>') +
+        '<span class="cartao-acao">Ver peça &rarr;</span>' +
+        '</span></div><span class="cartao-borda"></span></button></li>';
+    }).join('');
+  }
+
+  /* Dois lados no desktop, empilhado no celular. */
+  function aplicarEstilosExtras() {
+    if (document.getElementById('estiloExtra')) return;
+    var s = document.createElement('style');
+    s.id = 'estiloExtra';
+    s.textContent = '@media(min-width:1024px){.dois-lados{grid-template-columns:1fr 1fr;gap:72px!important}}';
+    document.head.appendChild(s);
+  }
+
+  /* --- janela do projeto ------------------------------------------------ */
+  function abrirProjeto(i) {
+    var p = dados.projetos[i];
+    if (!p) return;
+
+    var html = '<div class="camada-fundo" id="janelaProj" role="dialog" aria-modal="true" aria-label="' + esc(p.nome) + '">' +
+      '<div class="proj-topo"><div class="env">' +
+      '<button class="proj-fechar" id="fecharProj">← Voltar para a coleção</button>' +
+      '</div></div>' +
+      '<div class="env proj-cab">' +
+      '<p class="cartao-cat">' + esc(p.categoria) + '</p>' +
+      '<h2>' + esc(p.nome) + '</h2>' +
+      (p.resumo ? '<p class="texto" style="margin-top:20px">' + esc(p.resumo) + '</p>' : '') +
+      (p.preco ? '<p style="margin-top:22px;font-size:30px;color:#fff;font-variant-numeric:tabular-nums">' + esc(p.preco) +
+        (p.precoParcelado ? '<span style="font-size:14px;color:var(--aco);margin-left:14px">ou ' + esc(p.precoParcelado) + ' no cartão</span>' : '') +
+        '</p>' : '') +
+      '<div style="margin-top:40px">' + foto(p.imagem, p.nome, 'natural', '', true) + '</div>' +
+      '<div class="proj-corpo">' +
+      '<div class="proj-desc">' +
+      (p.descricao || []).map(function (t) { return '<p>' + esc(t) + '</p>'; }).join('') +
+      '</div>' +
+      '<div>' + (p.ficha && p.ficha.length
+        ? '<h3 class="rotulo" style="color:var(--ouro)">Ficha técnica</h3><dl class="ficha">' +
+          p.ficha.map(function (f) {
+            return '<div><dt>' + esc(f.rotulo) + '</dt><dd>' + esc(f.valor) + '</dd></div>';
+          }).join('') + '</dl>'
+        : '') + '</div>' +
+      '</div>' +
+      ((p.galeria && p.galeria.length)
+        ? '<div class="proj-galeria">' + p.galeria.map(function (g) {
+            return foto(g, p.nome + ' — detalhe', 'quadrada');
+          }).join('') + '</div>'
+        : '') +
+      '<div class="proj-cta">' +
+      '<h3 class="titulo">Quero <span class="dourado">esta peça.</span></h3>' +
+      '<p class="texto" style="margin:20px auto 0;text-align:center">Fale com a AUREN pelo WhatsApp. A conversa já começa com o nome da peça.</p>' +
+      '<div style="margin-top:32px">' +
+      '<a class="btn btn-ouro" href="' + esc(zap(MSG.projeto(p.nome))) + '" target="_blank" rel="noopener">Comprar pelo WhatsApp</a>' +
+      '</div></div>' +
+      '</div></div>';
+
+    $('#camada').innerHTML = html;
+    document.body.classList.add('sem-scroll');
+    $('#fecharProj').addEventListener('click', fecharProjeto);
+    $('#janelaProj').addEventListener('click', function (e) {
+      if (e.target.id === 'janelaProj') fecharProjeto();
+    });
+    document.addEventListener('keydown', escFecha);
+    $('#fecharProj').focus();
+  }
+  function escFecha(e) { if (e.key === 'Escape') fecharProjeto(); }
+  function fecharProjeto() {
+    $('#camada').innerHTML = '';
+    document.body.classList.remove('sem-scroll');
+    document.removeEventListener('keydown', escFecha);
+  }
+
+  /* --- comportamentos do site ------------------------------------------- */
+  function ligarSite() {
+    // Respeita quem configurou "reduzir movimento": o vídeo não roda,
+    // fica o quadro de espera.
+    var v = $('.capa-video');
+    if (v && window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      v.removeAttribute('autoplay');
+      v.pause();
+    }
+
+    var topo = $('#topo');
+    var flut = $('#flutuante');
+    var menuMob = $('#menuMob');
+    var btnMenu = $('#btnMenu');
+
+    function aoRolar() {
+      var y = window.scrollY;
+      if (topo) topo.classList.toggle('rolado', y > 24);
+      if (flut) flut.setAttribute('data-ver', y > window.innerHeight * 0.7 ? '1' : '0');
+      marcarSecao();
+    }
+    window.addEventListener('scroll', aoRolar, { passive: true });
+    aoRolar();
+
+    function marcarSecao() {
+      var atual = '';
+      SECOES.forEach(function (s) {
+        var el = document.getElementById(s.id);
+        if (el && el.getBoundingClientRect().top <= 140) atual = s.id;
+      });
+      $$('.menu a').forEach(function (a) {
+        a.classList.toggle('ativo', a.getAttribute('data-sec') === atual);
+      });
+    }
+
+    if (btnMenu) {
+      btnMenu.addEventListener('click', function () {
+        var aberto = menuMob.getAttribute('data-aberto') === '1';
+        menuMob.setAttribute('data-aberto', aberto ? '0' : '1');
+        btnMenu.setAttribute('aria-expanded', aberto ? 'false' : 'true');
+        btnMenu.setAttribute('aria-label', aberto ? 'Abrir menu' : 'Fechar menu');
+        document.body.classList.toggle('sem-scroll', !aberto);
+      });
+      $$('#menuMob a').forEach(function (a) {
+        a.addEventListener('click', function () {
+          menuMob.setAttribute('data-aberto', '0');
+          btnMenu.setAttribute('aria-expanded', 'false');
+          document.body.classList.remove('sem-scroll');
+        });
+      });
+    }
+
+    $$('.filtro').forEach(function (b) {
+      b.addEventListener('click', function () {
+        $$('.filtro').forEach(function (o) { o.setAttribute('aria-pressed', 'false'); });
+        b.setAttribute('aria-pressed', 'true');
+        $('#grade').innerHTML = cartoes(b.getAttribute('data-cat'));
+        ligarCartoes();
+        animar();
+      });
+    });
+
+    ligarCartoes();
+  }
+
+  function ligarCartoes() {
+    $$('.cartao').forEach(function (c) {
+      c.addEventListener('click', function () {
+        abrirProjeto(Number(c.getAttribute('data-proj')));
+      });
+    });
+  }
+
+  function animar() {
+    var alvos = $$('.rv:not([data-ver="1"])');
+    if (!('IntersectionObserver' in window)) {
+      alvos.forEach(function (el) { el.setAttribute('data-ver', '1'); });
+      return;
+    }
+    var obs = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) { e.target.setAttribute('data-ver', '1'); obs.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.04 });
+    alvos.forEach(function (el) { obs.observe(el); });
+  }
+
+  /* --- aviso na tela ---------------------------------------------------- */
+  function aviso(texto) {
+    var r = $('#recado');
+    r.textContent = texto;
+    r.setAttribute('data-ver', '1');
+    clearTimeout(r._t);
+    r._t = setTimeout(function () { r.setAttribute('data-ver', '0'); }, 5200);
+  }
+
+  /* Avisa antes de fechar, se houver alteração ainda não baixada. */
+  window.addEventListener('beforeunload', function (e) {
+    if (!alterado) return;
+    e.preventDefault();
+    e.returnValue = '';
+  });
+
+  /* --- início ----------------------------------------------------------- */
+  desenhar();
+
+  /* Ponte para o painel de edição, que vive em outro <script>.
+     No index.html público esse outro script não existe, e o site
+     simplesmente funciona sem nada para editar. */
+  window.AUREN = {
+    dados: dados,
+    previas: previas,
+    pendentes: pendentes,
+    desenhar: desenhar,
+    aviso: aviso,
+    esc: esc,
+    num: num,
+    $: $,
+    $$: $$,
+    marcarAlterado: function (v) { alterado = v; }
+  };
+})();
+</script>
+
+<!-- ==========================================================================
+     PAINEL DE EDIÇÃO
+     Este <script> inteiro NÃO existe no index.html público.
+     É ele que cria o botão "Editar site" e todo o formulário.
+     ========================================================================== -->
+
+
+
+
+</body></html>
