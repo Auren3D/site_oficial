@@ -1,0 +1,55 @@
+LOGO DA AUREN — ARQUIVOS DESTA PASTA
+====================================
+
+logo-auren.png
+    Logo completa (símbolo + AUREN + 3D CREATION STUDIO),
+    com FUNDO TRANSPARENTE. É a que aparece no rodapé do site.
+    486 x 360 px.
+
+simbolo-auren.png
+    Apenas o símbolo "A", com fundo transparente.
+    É o que aparece no cabeçalho, ao lado do nome.
+    255 x 220 px.
+
+logo-original-fundo-preto.png
+    O arquivo que você me enviou, guardado sem alteração.
+    Tem fundo preto sólido. Não é usado pelo site.
+
+
+POR QUE FOI PRECISO MUDAR
+-------------------------
+
+1. FUNDO
+   O arquivo original tem fundo preto sólido. Colado no site,
+   apareceria um retângulo preto visível nas partes cinza da
+   página e sobre as fotos. Transformei o preto em transparência
+   preservando o brilho dourado das bordas — sobre o fundo do
+   site, o resultado é idêntico ao original.
+
+2. DOIS TAMANHOS
+   A logo inteira tem o símbolo em cima e a palavra embaixo.
+   No cabeçalho, que tem 74 pixels de altura, ela ficaria com a
+   palavra AUREN de 6 pixels — ilegível. Por isso o cabeçalho usa
+   só o símbolo, ao lado do nome escrito em Montserrat. O rodapé,
+   que tem espaço, usa a logo inteira.
+
+3. PESO
+   O original tinha 1,5 MB. Reduzi para o tamanho que o site
+   realmente exibe: 142 KB e 63 KB. Site pesado demora a abrir
+   no celular.
+
+
+SE VOCÊ TROCAR A LOGO NO FUTURO
+-------------------------------
+
+Coloque o arquivo novo nesta pasta e escolha no painel de edição
+(editar.html > Editar site > grupo "Marca"). Há dois campos:
+
+    Símbolo do topo (o "A")   → cabeçalho
+    Logo completa (rodapé)    → rodapé
+
+Prefira PNG com fundo transparente, ou SVG. Versão clara ou
+dourada: o site tem fundo preto e uma logo escura sumiria.
+
+Se um arquivo faltar, o site volta sozinho a escrever AUREN.
+Nunca fica um espaço quebrado.
